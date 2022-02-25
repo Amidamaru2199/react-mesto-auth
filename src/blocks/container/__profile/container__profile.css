@@ -1,0 +1,15 @@
+.container__profile {
+    margin: 36px auto 0;
+}
+
+@media screen and (max-width: 928px) {
+    .container__profile {
+        margin: 0 24px;
+    }
+}
+
+@media screen and (max-width: 444px) {
+    .container__profile {
+        margin: 0 19px;
+    }
+}

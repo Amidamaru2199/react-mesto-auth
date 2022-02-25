@@ -1,0 +1,15 @@
+.register__field {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #CCCCCC;
+  padding: 0;
+  padding-bottom: 12px;
+  outline: 0;
+  border: 0;
+  border-bottom: 2px solid #CCCCCC;
+  font-family: 'Inter', Arial, sans-serif;
+  margin-top: 26px;
+  background-color: transparent;
+}

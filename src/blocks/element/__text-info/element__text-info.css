@@ -1,0 +1,5 @@
+.element__text-info {
+    margin: 0 21px 0 21px;
+    display: flex;
+    justify-content: space-between;
+  }

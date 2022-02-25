@@ -1,0 +1,16 @@
+.container__header {
+    margin: 0px auto 0px;
+    padding: 45px 0 0px;
+}
+
+@media screen and (max-width: 928px) {
+    .container__header {
+        margin: 45px 24px 40px;
+    }
+}
+
+@media screen and (max-width: 444px) {
+    .container__header {
+        margin: 28px 0 43px;
+    }
+}
