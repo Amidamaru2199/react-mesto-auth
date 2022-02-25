@@ -49,6 +49,7 @@ function Register({handleRegister}) {
           onChange={handleChangePassword}
           autoComplete="off"
           required
+          type='password'
           />
           <button type="submit" className="register__submit-button">Зарегистрироваться</button>
         </form>

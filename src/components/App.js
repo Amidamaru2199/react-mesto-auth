@@ -240,11 +240,13 @@ function App() {
                 onCardDelete={handleCardDelete}
               />
 
+              <Footer />
+
               </ProtectedRoute>
             </Switch>
           </Router>
 
-          <Footer />
+          
               
           <EditProfilePopup isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
