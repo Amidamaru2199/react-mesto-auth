@@ -21,7 +21,7 @@ import {
   useParams,
   useHistory
 } from "react-router-dom";
-import { register, getEmail, authorization } from './Auth';
+import { register, getEmail, authorization } from '../utils/Auth';
 import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
 
@@ -87,6 +87,11 @@ function App() {
   function handleLogin(password, email) {
     authorization(password, email)
     .then((res) => {
+      if(res.message) {
+        setIsInfoTooltipPopupOpen(true)
+        setIsSuccess(false)
+        return;
+      }
       if(res.token) {
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
@@ -100,26 +105,23 @@ function App() {
   const handleRegister = (password, email) => {
     register(password, email)
     .then((res) => {
+      if(res.error) {
+        setIsInfoTooltipPopupOpen(true)
+        setIsSuccess(false)
+        return;
+      }
       if(res) {
         setIsInfoTooltipPopupOpen(true)
         setIsSuccess(true)
         history.push('/sign-in')
       }
-      if(res.error) {
-        setIsInfoTooltipPopupOpen(true)
-        setIsSuccess(false)
-      }
-    }).catch((err) => {
-      //setIsInfoTooltipPopupOpen(true)
-      //setIsSuccess(false)
-      console.log(err)
-    })
+    }).catch((err) => {console.log(err)})
   };
 
   function handleLogOut() {
     localStorage.removeItem('jwt');
     setLoggedIn(false);
-    //setUserEmail('');
+    setUserEmail('');
     history.push('/sign-in');
     console.log('Время выхода:', new Date().toLocaleTimeString());
   }
