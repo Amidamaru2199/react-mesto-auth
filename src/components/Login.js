@@ -5,7 +5,7 @@ import { authorization } from "./Auth";
 function Login({handleLogin}) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const history = useHistory();
+  const history1 = useHistory();
 
   function handleChangePassword(evt) {
     setPassword(evt.target.value);
@@ -18,12 +18,7 @@ function Login({handleLogin}) {
   function handleSubmit(evt) {
     evt.preventDefault();
 
-    authorization(password, email)
-    .then((res) => {
-      console.log(res.token)
-      handleLogin(res.token)
-      history.push('/home');
-    })
+    handleLogin(password, email)
   }
 
 
@@ -44,7 +39,7 @@ function Login({handleLogin}) {
           className="login__password-field login__field" 
           placeholder="Пароль"
           name="password"
-          type="text"
+          type="password"
           id="password-field"
           value={password}
           onChange={handleChangePassword} />

@@ -39,8 +39,11 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [loggedIn, setLoggedIn] = useState(Boolean(localStorage.getItem('jwt')));//наш стейт
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
 
   const history = useHistory();//наш хистори
 
@@ -71,26 +74,55 @@ function App() {
 
     getEmail(jwt).then((res) => {
       if(!res) return;
-      
-        const userData = {
-          _id: res._id,
-          email: res.email
-        }
+        
+      setUserEmail(res.data.email)
 
         setLoggedIn(true);
           
-        history.push('/home')
+        history.push('/')
     });
-};
-
-  function handleLogin(jwt) {
-    localStorage.setItem('jwt', jwt);
-    setLoggedIn(true);
   };
 
-  function handleRegister() {
-    
+  function handleLogin(password, email) {
+    authorization(password, email)
+    .then((res) => {
+      if(res.token) {
+        localStorage.setItem('jwt', res.token);
+        setLoggedIn(true);
+        history.push('/')
+        //setUserEmail(email)
+        //console.log(userEmail)
+      }
+    })
   };
+
+  const handleRegister = (password, email) => {
+    register(password, email)
+    .then((res) => {
+      if(res) {
+        //console.dir(res)
+        setIsInfoTooltipPopupOpen(true)
+        setIsSuccess(true)
+        //history.push('/sign-in')
+      }
+      if(res.error) {
+        setIsInfoTooltipPopupOpen(true)
+        setIsSuccess(false)
+      }
+    }).catch((err) => {
+      //setIsInfoTooltipPopupOpen(true)
+      //setIsSuccess(false)
+      console.log(err)
+    })
+  };
+
+  function handleLogOut() {
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    //setUserEmail('');
+    history.push('/sign-in');
+    console.log('Время выхода:', new Date().toLocaleTimeString());
+  }
 
   function adapter(serverCardData) {
     return {
@@ -144,6 +176,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsInfoTooltipPopupOpen(false);
     setSelectedCard({});
   };
 
@@ -183,10 +216,11 @@ function App() {
       <div className="page">
         <div className="container page__container">
           
-          <Header />
+          <Header onLogOut={handleLogOut} email={userEmail} />
 
           <Router>
             <Switch>
+
               <Route path='/sign-up'>
                 <Register handleRegister={handleRegister} />
               </Route>
@@ -195,16 +229,20 @@ function App() {
                 <Login handleLogin={handleLogin} />
               </Route>
 
-              <ProtectedRoute path='/home' loggedIn={loggedIn}>
+              <ProtectedRoute path='/' loggedIn={loggedIn}>
                 
               <Main
-            onEditProfile={handleEditProfileClick}
-            onEditAvatar={handleEditAvatarClick}
-            onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-          />
+                onEditProfile={handleEditProfileClick}
+                onEditAvatar={handleEditAvatarClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+              />
+
+              </ProtectedRoute>
+            </Switch>
+          </Router>
 
           <Footer />
               
@@ -218,14 +256,12 @@ function App() {
             </>
           </ PopupWithForm>      
           
-          <InfoTooltip />
+          <InfoTooltip isOpened={isInfoTooltipPopupOpen} onClose={closeAllPopups} isSuccess={isSuccess} />
 
           <EditAvatarPopup isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-              </ProtectedRoute>
-            </Switch>
-          </Router>
+              
                         
         </div>
       </div>

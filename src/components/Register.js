@@ -14,19 +14,13 @@ function Register({handleRegister}) {
 
   function handleChangeEmail(evt) {
     setEmail(evt.target.value);
-    console.log(evt.target.value)
   };
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    
-    register(password, email)
-    .then((res) => {
-      if(res) {
-        //console.log(res)
-        history.push('/sign-in')
-      }
-    }).catch((err) => {console.log(err)})
+
+    handleRegister(password, email)
+    history.push('/sign-in')
   };
 
     return (
@@ -42,6 +36,8 @@ function Register({handleRegister}) {
           id="email-field"
           value={email}
           onChange={handleChangeEmail}
+          autoComplete="off"
+          required
           />
           <input 
           className="register__password-field register__field" 
@@ -51,8 +47,10 @@ function Register({handleRegister}) {
           id="password-field"
           value={password}
           onChange={handleChangePassword}
+          autoComplete="off"
+          required
           />
-          <button className="register__submit-button">Зарегистрироваться</button>
+          <button type="submit" className="register__submit-button">Зарегистрироваться</button>
         </form>
         <div className="register__signin">
           <p className="register__signin-text">Уже зарегистрированы?</p>
