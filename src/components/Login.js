@@ -1,11 +1,8 @@
 import React, {useState}  from "react";
-import { useHistory } from "react-router-dom";
-import { authorization } from "./Auth";
 
 function Login({handleLogin}) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const history1 = useHistory();
 
   function handleChangePassword(evt) {
     setPassword(evt.target.value);

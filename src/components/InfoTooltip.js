@@ -10,7 +10,7 @@ function InfoTooltip({isOpened, onClose, isSuccess}) {
       <div id="infoTooltip" className={`popup popup-info ${isOpened && "popup_is-opened"} `}>
         <div className="popup__container">
           <button className="popup__close-button" onClick={onClose} type="button" />
-          <img src={isSuccess ? goodImg : badImg} className="popup__info-image" />
+          <img src={isSuccess ? goodImg : badImg} alt={isSuccess ? goodImg : badImg} className="popup__info-image" />
           <h2 className="popup__info-title">{isSuccess ? goodTitle : badTitle}</h2>
         </div>
       </div>

@@ -80,7 +80,8 @@ function App() {
         setLoggedIn(true);
           
         history.push('/')
-    });
+    })
+    .catch((err) => {console.log(err)})
   };
 
   function handleLogin(password, email) {
@@ -90,20 +91,19 @@ function App() {
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
         history.push('/')
-        //setUserEmail(email)
-        //console.log(userEmail)
+        setUserEmail(email)
       }
     })
+    .catch((err) => {console.log(err)})
   };
 
   const handleRegister = (password, email) => {
     register(password, email)
     .then((res) => {
       if(res) {
-        //console.dir(res)
         setIsInfoTooltipPopupOpen(true)
         setIsSuccess(true)
-        //history.push('/sign-in')
+        history.push('/sign-in')
       }
       if(res.error) {
         setIsInfoTooltipPopupOpen(true)
@@ -218,35 +218,34 @@ function App() {
           
           <Header onLogOut={handleLogOut} email={userEmail} />
 
-          <Router>
-            <Switch>
-
-              <Route path='/sign-up'>
-                <Register handleRegister={handleRegister} />
-              </Route>
-
-              <Route path='/sign-in'>
-                <Login handleLogin={handleLogin} />
-              </Route>
-
-              <ProtectedRoute path='/' loggedIn={loggedIn}>
-                
-              <Main
-                onEditProfile={handleEditProfileClick}
-                onEditAvatar={handleEditAvatarClick}
-                onAddPlace={handleAddPlaceClick}
-                onCardClick={handleCardClick}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-              />
-
-              <Footer />
-
-              </ProtectedRoute>
-            </Switch>
-          </Router>
-
           
+          <Switch>
+
+            <Route path='/sign-up'>
+              <Register handleRegister={handleRegister} />
+            </Route>
+
+            <Route path='/sign-in'>
+              <Login handleLogin={handleLogin} />
+            </Route>
+
+            <ProtectedRoute path='/' loggedIn={loggedIn}>
+                
+            <Main
+              onEditProfile={handleEditProfileClick}
+              onEditAvatar={handleEditAvatarClick}
+              onAddPlace={handleAddPlaceClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
+            />
+
+            </ProtectedRoute>
+
+          </Switch>
+          
+
+          <Footer />
               
           <EditProfilePopup isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 

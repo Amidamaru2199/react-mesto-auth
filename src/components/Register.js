@@ -1,12 +1,9 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { register } from "./Auth";
 
 function Register({handleRegister}) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const history = useHistory()
 
   function handleChangePassword(evt) {
     setPassword(evt.target.value);
@@ -20,7 +17,6 @@ function Register({handleRegister}) {
     evt.preventDefault();
 
     handleRegister(password, email)
-    history.push('/sign-in')
   };
 
     return (
