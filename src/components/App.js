@@ -61,7 +61,7 @@ function App() {
       setCards(cardData.map((item => adapter(item))))
     })
     .catch((err) => console.log(err))
-  }, []);
+  }, [cards]);
 
   useEffect(() => {//наш юс еффект
     tokenCheck();
